@@ -15,10 +15,14 @@ public class Main {
         TravelingSalesmanProblem.CityAdder("'s hertogenbos", 51.699170, 5.304170);
 
         ArrayList<Node> OptimalRoute = TravelingSalesmanProblem.FindOptimalRoute();
+        System.out.println("Shortest total distance: " + TravelingSalesmanProblem.BestTotalDistance);
+        System.out.println("Optimal route: ");
         for (Node node : OptimalRoute) {
 //            System.out.println(node.CityName + " (" + node.xCoord + " , " + node.yCoord + ")");
-            System.out.print(node.CityName + ", ");
+            System.out.print(node.CityName + " ");
         }
+        System.out.println();
+        System.out.println("Best route from " + TravelingSalesmanProblem.NodeList.get(0).CityName + ": ");
         ArrayList<Node> RouteFrom = TravelingSalesmanProblem.BestRouteFrom(0);
         for (Node node : RouteFrom) {
             System.out.print(node.CityName + ", ");

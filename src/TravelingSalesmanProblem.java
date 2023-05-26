@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class TravelingSalesmanProblem {
 
+    public static double TotalDistance = 0;
+    public static double BestTotalDistance = 0;
     static ArrayList<Node> NodeList = new ArrayList<>();
     static ArrayList<Node> RouteList = new ArrayList<>();
 
@@ -32,7 +34,7 @@ public class TravelingSalesmanProblem {
         int RouteListTracker = 0;
         double SmallestDistance = 1000;
         Node SmallestDistanceCity = null;
-        double totaldistance = 0;
+        TotalDistance = 0;
 
         for (int i = 0; i < NodeList.size(); i++) {
             if (RouteList.containsAll(NodeList)) {
@@ -49,7 +51,7 @@ public class TravelingSalesmanProblem {
                 if (!RouteList.contains(SmallestDistanceCity)) {
                     RouteList.add(SmallestDistanceCity);
                 }
-                totaldistance += SmallestDistance;
+                TotalDistance += SmallestDistance;
                 SmallestDistance = 1000;
                 i = -1;
                 RouteListTracker++;
@@ -58,59 +60,21 @@ public class TravelingSalesmanProblem {
                 }
             }
         }
-        System.out.println(totaldistance);
         return RouteList;
-    }
-
-    public static double RouteOrder(int startNode) {
-//        Node RandomNode = NodeList.get(new Random().nextInt(NodeList.size()));
-        RouteList.clear();
-        RouteList.add(NodeList.get(startNode));
-
-
-        int RouteListTracker = 0;
-        double SmallestDistance = 1000;
-        Node SmallestDistanceCity = null;
-        double totaldistance = 0;
-
-        for (int i = 0; i < NodeList.size(); i++) {
-            if (RouteList.containsAll(NodeList)) {
-                break;
-            }
-            if (!RouteList.contains(NodeList.get(i))) {
-                double Temp = DistanceCalculator(RouteList.get(RouteListTracker), NodeList.get(i));
-                if (Temp < SmallestDistance) {
-                    SmallestDistance = Temp;
-                    SmallestDistanceCity = NodeList.get(i);
-                }
-            }
-            if (i == (NodeList.size() - 1)) {
-                if (!RouteList.contains(SmallestDistanceCity)) {
-                    RouteList.add(SmallestDistanceCity);
-                }
-                totaldistance += SmallestDistance;
-                SmallestDistance = 1000;
-                i = -1;
-                RouteListTracker++;
-                if (RouteListTracker == NodeList.size()) {
-                    break;
-                }
-            }
-        }
-        return totaldistance;
     }
 
     public static ArrayList<Node> FindOptimalRoute() {
         ArrayList<Node> OptimalRoute = new ArrayList<>();
         double BestRouteDistance = 1000;
         for (int i2 = 0; i2 < NodeList.size(); i2++) {
-            if (RouteOrder(i2) < BestRouteDistance) {
-                BestRouteDistance = RouteOrder(i2);
+            RouteList = BestRouteFrom(i2);
+            if (TotalDistance < BestRouteDistance) {
+                BestRouteDistance = TotalDistance;
                 OptimalRoute.clear();
                 OptimalRoute.addAll(RouteList);
+                BestTotalDistance = TotalDistance;
             }
             if (i2 == NodeList.size() - 1) {
-                System.out.println(BestRouteDistance);
                 return OptimalRoute;
             }
         }
